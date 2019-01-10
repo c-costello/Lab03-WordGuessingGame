@@ -55,8 +55,11 @@ namespace GuessingGameApp
         static void StartGame(string path)
         {
             string guessThisWord = GetRandomWord(path);
+            for (int i = 0; i < 10; i++)
+            {
             Console.WriteLine(guessThisWord);
             GuessChecker(LetterPrompt(), guessThisWord);
+            }
             
         }
 
@@ -66,8 +69,13 @@ namespace GuessingGameApp
             if (word.Contains(letter))
             {
                 Console.WriteLine("YAY!");
+            } 
+            else
+            {
+                Console.WriteLine("Wrong!");
             }
             AppendToFile(guessPath, letterInput);
+            Console.WriteLine(WordChecker(word));
             ReadFile(guessPath);
         }
 
@@ -76,6 +84,39 @@ namespace GuessingGameApp
             Console.WriteLine("Guess a Letter:");
             string choice = Console.ReadLine();
             return choice;
+        }
+
+        static char[] WordChecker(string word)
+        {
+            int wordLength = word.Length;
+            char[] wordForm = new char[wordLength];
+            for (int i = 0; i < wordLength; i++)
+            {
+                wordForm[i] = '_';
+            }
+
+
+            string[] guessedLetters = File.ReadAllLines(guessPath);
+            char[] guessedLettersChar = new char[guessedLetters.Length];
+            Console.WriteLine(String.Join(',', guessedLetters));
+            for (int i = 1; i < guessedLetters.Length; i++)
+            {
+                guessedLettersChar[i-1] = Convert.ToChar(guessedLetters[i]);
+            };
+            Console.WriteLine(String.Join(',', guessedLettersChar));
+
+            for (int i = 0; i < guessedLettersChar.Length; i++)
+            {
+                foreach (char letter in word)
+                {
+                    if( letter == guessedLettersChar[i])
+                    {
+                        wordForm[i] = letter;
+                    }
+                }
+
+            }
+            return wordForm;
         }
 
 
