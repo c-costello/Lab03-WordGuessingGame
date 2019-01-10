@@ -7,19 +7,15 @@ namespace GuessingGameApp
     {
         public static string path = "../../../../../words.txt";
         public static string guessPath = "../../../../../guesses.txt";
+        public static bool isCorrect = false;
         static void Main(string[] args)
         {
-
             CreateFile(path);
             CreateFileGuesses(guessPath);
-            Menu(path);
-
-            //AppendToFile(path, "CAT");
-            //ReadFile(path);
-            //DeleteFile(path);
+            Menu();
         }
 
-        static void Menu(string path)
+        static void Menu()
         {
             Console.WriteLine("Play HangMan?");
             Console.WriteLine("1. Begin Game");
@@ -55,33 +51,35 @@ namespace GuessingGameApp
         static void StartGame(string path)
         {
             string guessThisWord = GetRandomWord(path);
-            for (int i = 0; i < 10; i++)
+            while (isCorrect == false)
             {
-            Console.WriteLine(guessThisWord);
-            GuessChecker(LetterPrompt(), guessThisWord);
+                Console.WriteLine("Your Word: " + guessThisWord);
+                GuessChecker(LetterPrompt(), guessThisWord);
+                Console.WriteLine();
             }
+            Console.WriteLine("You Won!");
+            Menu();
+
             
         }
 
         static void GuessChecker(string letterInput, string word)
         {
             char letter = Convert.ToChar(letterInput);
-            if (word.Contains(letter))
-            {
-                Console.WriteLine("YAY!");
-            } 
-            else
-            {
-                Console.WriteLine("Wrong!");
-            }
             AppendToFile(guessPath, letterInput);
-            Console.WriteLine(WordChecker(word));
+            char[] checkedWord = WordChecker(word);
+            string checkedWordStr = new string(checkedWord);
+            Console.WriteLine("This is my word: " + checkedWordStr);
             ReadFile(guessPath);
+            if (checkedWordStr == word)
+            {
+                isCorrect = true;
+            }
         }
 
         static string LetterPrompt()
         {
-            Console.WriteLine("Guess a Letter:");
+            Console.WriteLine("Guess a Letter: ");
             string choice = Console.ReadLine();
             return choice;
         }
@@ -94,24 +92,21 @@ namespace GuessingGameApp
             {
                 wordForm[i] = '_';
             }
-
-
+            
             string[] guessedLetters = File.ReadAllLines(guessPath);
             char[] guessedLettersChar = new char[guessedLetters.Length];
-            Console.WriteLine(String.Join(',', guessedLetters));
             for (int i = 1; i < guessedLetters.Length; i++)
             {
                 guessedLettersChar[i-1] = Convert.ToChar(guessedLetters[i]);
             };
-            Console.WriteLine(String.Join(',', guessedLettersChar));
 
             for (int i = 0; i < guessedLettersChar.Length; i++)
             {
-                foreach (char letter in word)
+                for (int j = 0; j < word.Length; j++)                  
                 {
-                    if( letter == guessedLettersChar[i])
+                    if( word[j] == guessedLettersChar[i])
                     {
-                        wordForm[i] = letter;
+                        wordForm[j] = word[j];
                     }
                 }
 

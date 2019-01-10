@@ -1,6 +1,2 @@
 GUESSES
-F
-u
-n
-n
-y
+C
