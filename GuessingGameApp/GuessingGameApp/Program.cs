@@ -5,11 +5,13 @@ namespace GuessingGameApp
 {
     class Program
     {
+        public static string path = "../../../../../words.txt";
+        public static string guessPath = "../../../../../guesses.txt";
         static void Main(string[] args)
         {
-            string path = "../../../../../words.txt";
 
             CreateFile(path);
+            CreateFileGuesses(guessPath);
             Menu(path);
 
             //AppendToFile(path, "CAT");
@@ -52,8 +54,31 @@ namespace GuessingGameApp
         //game functions
         static void StartGame(string path)
         {
-            Console.WriteLine(GetRandomWord(path));
+            string guessThisWord = GetRandomWord(path);
+            Console.WriteLine(guessThisWord);
+            GuessChecker(LetterPrompt(), guessThisWord);
+            
         }
+
+        static void GuessChecker(string letterInput, string word)
+        {
+            char letter = Convert.ToChar(letterInput);
+            if (word.Contains(letter))
+            {
+                Console.WriteLine("YAY!");
+            }
+            AppendToFile(guessPath, letterInput);
+            ReadFile(guessPath);
+        }
+
+        static string LetterPrompt()
+        {
+            Console.WriteLine("Guess a Letter:");
+            string choice = Console.ReadLine();
+            return choice;
+        }
+
+
 
         static string GetRandomWord(string path)
         {
@@ -77,6 +102,13 @@ namespace GuessingGameApp
             }
 
         }
+        static void CreateFileGuesses(string path)
+        {
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+                streamWriter.WriteLine("GUESSES");
+            }
+        }
         static void ReadFile(string path)
         {
             using (StreamReader streamReader = new StreamReader(path))
@@ -90,11 +122,11 @@ namespace GuessingGameApp
             }
 
         }
-        static void AppendToFile(string path, string word)
+        static void AppendToFile(string path, string input)
         {
             using (StreamWriter streamWriter = File.AppendText(path))
             {
-                streamWriter.WriteLine(word);
+                streamWriter.WriteLine(input);
             }
 
         }
