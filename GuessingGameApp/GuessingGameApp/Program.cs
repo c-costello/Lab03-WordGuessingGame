@@ -3,7 +3,7 @@ using System.IO;
 
 namespace GuessingGameApp
 {
-    class Program
+    public class Program
     {
         public static string path = "../../../../../words.txt";
         public static string guessPath = "../../../../../guesses.txt";
@@ -15,7 +15,7 @@ namespace GuessingGameApp
             Menu();
         }
 
-        static void Menu()
+        public static void Menu()
         {
             Console.WriteLine("Play HangMan?");
             Console.WriteLine("1. Begin Game");
@@ -35,20 +35,35 @@ namespace GuessingGameApp
                     break;
                 case 3:
                     break;
+                case 0:
+                    Console.WriteLine("Please enter a valid number");
+                    Menu();
+                    break;
                 default:
                     break;
             }
 
         }
 
-        static int PickHandler(string pickStr)
+        public static int PickHandler(string pickStr)
         {
-            int pick = Convert.ToInt32(pickStr);
+            int pick;
+            try
+            {
+                int check = Convert.ToInt32(pickStr);
+            }
+            catch (FormatException)
+            {
+                pick = 0;
+                return pick;
+                throw;
+            }
+            pick = Convert.ToInt32(pickStr);
             return pick;
         }
 
         //admin functions
-        static void AdminMenu()
+        public static void AdminMenu()
         {
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1. View Words");
@@ -72,7 +87,7 @@ namespace GuessingGameApp
             }
         }
 
-        static void AddAWord()
+        public static void AddAWord()
         {
             ReadFile(path);
             Console.WriteLine("What word would you like to add?");
@@ -81,14 +96,14 @@ namespace GuessingGameApp
             Console.WriteLine();
             AdminMenu();
         }
-        static void ViewWords()
+        public static void ViewWords()
         {
             ReadFile(path);
             Console.WriteLine();
             AdminMenu();
         }
         //game functions
-        static void StartGame()
+        public static void StartGame()
         {
             string guessThisWord = GetRandomWord(path);
             while (isCorrect == false)
@@ -99,13 +114,14 @@ namespace GuessingGameApp
                 GuessChecker(LetterPrompt(), guessThisWord);
                 Console.WriteLine();
             }
+            Console.WriteLine(String.Join(' ', WordChecker(guessThisWord)));
             Console.WriteLine("You Won!");
             Menu();
 
             
         }
 
-        static void GuessChecker(string letterInput, string word)
+        public static void GuessChecker(string letterInput, string word)
         {
             char letter = Convert.ToChar(letterInput);
             AppendToFile(guessPath, letterInput);
@@ -117,14 +133,14 @@ namespace GuessingGameApp
             }
         }
 
-        static string LetterPrompt()
+        public static string LetterPrompt()
         {
             Console.Write("Guess a Letter: ");
             string choice = Console.ReadLine();
             return choice;
         }
 
-        static char[] WordChecker(string word)
+        public static char[] WordChecker(string word)
         {
             int wordLength = word.Length;
             char[] wordForm = new char[wordLength];
@@ -156,7 +172,7 @@ namespace GuessingGameApp
 
 
 
-        static string GetRandomWord(string path)
+        public static string GetRandomWord(string path)
         {
             string[] words = File.ReadAllLines(path);
             int wordsLength = words.Length;
@@ -167,7 +183,7 @@ namespace GuessingGameApp
 
         } 
         //System.IO functions
-        static void CreateFile(string path)
+        public static void CreateFile(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
             {
@@ -178,14 +194,14 @@ namespace GuessingGameApp
             }
 
         }
-        static void CreateFileGuesses(string path)
+        public static void CreateFileGuesses(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
             {
                 streamWriter.WriteLine("GUESSES");
             }
         }
-        static void ReadFile(string path)
+        public static void ReadFile(string path)
         {
             using (StreamReader streamReader = new StreamReader(path))
             {
@@ -198,7 +214,7 @@ namespace GuessingGameApp
             }
 
         }
-        static void AppendToFile(string path, string input)
+        public static void AppendToFile(string path, string input)
         {
             using (StreamWriter streamWriter = File.AppendText(path))
             {
@@ -206,7 +222,7 @@ namespace GuessingGameApp
             }
 
         }
-        static void DeleteFile(string path)
+        public static void DeleteFile(string path)
         {
             File.Delete(path);
         }
