@@ -2,5 +2,5 @@ DOG
 Cat
 Silly
 Funny
-coding
-unicorns
+unicorn
+allow

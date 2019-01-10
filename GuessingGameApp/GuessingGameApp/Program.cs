@@ -11,7 +11,6 @@ namespace GuessingGameApp
         static void Main(string[] args)
         {
             CreateFile();
-            CreateFileGuesses();
             Menu();
         }
 
@@ -105,6 +104,7 @@ namespace GuessingGameApp
         //game functions
         public static void StartGame()
         {
+            CreateFileGuesses();
             string guessThisWord = GetRandomWord(wordPath);
             while (isCorrect == false)
             {
