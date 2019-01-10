@@ -1,2 +1,4 @@
 DOG
-CAT
+Cat
+Silly
+Funny

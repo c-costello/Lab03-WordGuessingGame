@@ -9,15 +9,15 @@ namespace GuessingGameApp
         {
             string path = "../../../../../words.txt";
 
-            Menu();
-
             CreateFile(path);
-            AppendToFile(path, "CAT");
-            ReadFile(path);
+            Menu(path);
+
+            //AppendToFile(path, "CAT");
+            //ReadFile(path);
             //DeleteFile(path);
         }
 
-        static void Menu()
+        static void Menu(string path)
         {
             Console.WriteLine("Play HangMan?");
             Console.WriteLine("1. Begin Game");
@@ -30,6 +30,7 @@ namespace GuessingGameApp
             switch (pick)
             {
                 case 1:
+                    StartGame(path);
                     break;
                 case 2:
                     break;
@@ -48,13 +49,31 @@ namespace GuessingGameApp
         }
 
 
+        //game functions
+        static void StartGame(string path)
+        {
+            Console.WriteLine(GetRandomWord(path));
+        }
 
+        static string GetRandomWord(string path)
+        {
+            string[] words = File.ReadAllLines(path);
+            int wordsLength = words.Length;
+            Random r = new Random();
+            int whichWord = r.Next(wordsLength);
+            string word = words[whichWord];
+            return word;
+
+        } 
         //System.IO functions
         static void CreateFile(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
             {
                 streamWriter.WriteLine("DOG");
+                streamWriter.WriteLine("Cat");
+                streamWriter.WriteLine("Silly");
+                streamWriter.WriteLine("Funny");
             }
 
         }
