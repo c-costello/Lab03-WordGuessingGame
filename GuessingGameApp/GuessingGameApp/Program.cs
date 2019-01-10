@@ -5,13 +5,13 @@ namespace GuessingGameApp
 {
     public class Program
     {
-        public static string path = "../../../../../words.txt";
+        public static string wordPath = "../../../../../words.txt";
         public static string guessPath = "../../../../../guesses.txt";
         public static bool isCorrect = false;
         static void Main(string[] args)
         {
-            CreateFile(path);
-            CreateFileGuesses(guessPath);
+            CreateFile();
+            CreateFileGuesses();
             Menu();
         }
 
@@ -89,23 +89,23 @@ namespace GuessingGameApp
 
         public static void AddAWord()
         {
-            ReadFile(path);
+            ReadFile(wordPath);
             Console.WriteLine("What word would you like to add?");
             string addedWord = Console.ReadLine();
-            AppendToFile(path, addedWord);
+            AppendToFile(wordPath, addedWord);
             Console.WriteLine();
             AdminMenu();
         }
         public static void ViewWords()
         {
-            ReadFile(path);
+            ReadFile(wordPath);
             Console.WriteLine();
             AdminMenu();
         }
         //game functions
         public static void StartGame()
         {
-            string guessThisWord = GetRandomWord(path);
+            string guessThisWord = GetRandomWord(wordPath);
             while (isCorrect == false)
             {
                 //Console.WriteLine("Your Word: " + guessThisWord);
@@ -116,6 +116,7 @@ namespace GuessingGameApp
             }
             Console.WriteLine(String.Join(' ', WordChecker(guessThisWord)));
             Console.WriteLine("You Won!");
+            DeleteFile(guessPath);
             Menu();
 
             
@@ -183,9 +184,9 @@ namespace GuessingGameApp
 
         } 
         //System.IO functions
-        public static void CreateFile(string path)
+        public static void CreateFile()
         {
-            using (StreamWriter streamWriter = new StreamWriter(path))
+            using (StreamWriter streamWriter = new StreamWriter(wordPath))
             {
                 streamWriter.WriteLine("DOG");
                 streamWriter.WriteLine("Cat");
@@ -194,9 +195,9 @@ namespace GuessingGameApp
             }
 
         }
-        public static void CreateFileGuesses(string path)
+        public static void CreateFileGuesses()
         {
-            using (StreamWriter streamWriter = new StreamWriter(path))
+            using (StreamWriter streamWriter = new StreamWriter(guessPath))
             {
                 streamWriter.WriteLine("GUESSES");
             }

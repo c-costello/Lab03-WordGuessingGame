@@ -17,5 +17,6 @@ namespace GuessingGameTests
         {
             Assert.Equal(0, Program.PickHandler("A string"));
         }
+        //
     }
 }
