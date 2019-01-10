@@ -9,13 +9,15 @@ namespace GuessingGameApp
         {
             string path = "../../../../../words.txt";
             CreateFile(path);
+            AppendToFile(path, "CAT");
+            ReadFile(path);
         }
 
         static void CreateFile(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
             {
-                streamWriter.WriteLine("This is my first Line");
+                streamWriter.WriteLine("DOG");
             }
 
         }
@@ -32,13 +34,17 @@ namespace GuessingGameApp
             }
 
         }
-        static void AppendToFile(string path)
+        static void AppendToFile(string path, string word)
         {
+            using (StreamWriter streamWriter = File.AppendText(path))
+            {
+                streamWriter.WriteLine(word);
+            }
 
         }
         static void DeleteFile(string path)
         {
-
+            File.Delete(path);
         }
     }
 }
