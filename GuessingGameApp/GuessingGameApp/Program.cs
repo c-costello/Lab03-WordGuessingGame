@@ -23,14 +23,15 @@ namespace GuessingGameApp
             Console.WriteLine("3. Exit");
             string pickStr = Console.ReadLine();
 
-            int pick = pickHandler(pickStr);
+            int pick = PickHandler(pickStr);
 
             switch (pick)
             {
                 case 1:
-                    StartGame(path);
+                    StartGame();
                     break;
                 case 2:
+                    AdminMenu();
                     break;
                 case 3:
                     break;
@@ -40,20 +41,61 @@ namespace GuessingGameApp
 
         }
 
-        static int pickHandler(string pickStr)
+        static int PickHandler(string pickStr)
         {
             int pick = Convert.ToInt32(pickStr);
             return pick;
         }
 
+        //admin functions
+        static void AdminMenu()
+        {
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("1. View Words");
+            Console.WriteLine("2. Edit Words");
+            Console.WriteLine("3. Return to menu");
+            string pickStr = Console.ReadLine();
+            int pick = PickHandler(pickStr);
+            switch (pick)
+            {
+                case 1:
+                    ViewWords();
+                    break;
+                case 2:
+                    AddAWord();                    
+                    break;
+                case 3:
+                    Menu();
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        static void AddAWord()
+        {
+            ReadFile(path);
+            Console.WriteLine("What word would you like to add?");
+            string addedWord = Console.ReadLine();
+            AppendToFile(path, addedWord);
+            Console.WriteLine();
+            AdminMenu();
+        }
+        static void ViewWords()
+        {
+            ReadFile(path);
+            Console.WriteLine();
+            AdminMenu();
+        }
         //game functions
-        static void StartGame(string path)
+        static void StartGame()
         {
             string guessThisWord = GetRandomWord(path);
             while (isCorrect == false)
             {
-                Console.WriteLine("Your Word: " + guessThisWord);
+                //Console.WriteLine("Your Word: " + guessThisWord);
+                Console.WriteLine(String.Join(' ', WordChecker(guessThisWord)));
+                ReadFile(guessPath);
                 GuessChecker(LetterPrompt(), guessThisWord);
                 Console.WriteLine();
             }
@@ -69,8 +111,6 @@ namespace GuessingGameApp
             AppendToFile(guessPath, letterInput);
             char[] checkedWord = WordChecker(word);
             string checkedWordStr = new string(checkedWord);
-            Console.WriteLine("This is my word: " + checkedWordStr);
-            ReadFile(guessPath);
             if (checkedWordStr == word)
             {
                 isCorrect = true;
@@ -79,7 +119,7 @@ namespace GuessingGameApp
 
         static string LetterPrompt()
         {
-            Console.WriteLine("Guess a Letter: ");
+            Console.Write("Guess a Letter: ");
             string choice = Console.ReadLine();
             return choice;
         }
