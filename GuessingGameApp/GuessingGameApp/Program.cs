@@ -205,7 +205,7 @@ namespace GuessingGameApp
                 streamWriter.WriteLine("GUESSES");
             }
         }
-        public static void ReadFile(string path)
+        public static string[] ReadFile(string path)
         {
             using (StreamReader streamReader = new StreamReader(path))
             {
@@ -215,6 +215,7 @@ namespace GuessingGameApp
                     Console.WriteLine(word);
                 }
 
+                return words;
             }
 
         }
@@ -224,17 +225,9 @@ namespace GuessingGameApp
             {
                 streamWriter.WriteLine(input);
             }
+            return ReadFile(path);
 
-            using (StreamReader streamReader = new StreamReader(path))
-            {
-                string[] words = File.ReadAllLines(path);
-                foreach (string word in words)
-                {
-                    Console.WriteLine(word);
-                }
-                return words;
-
-            }
+            
 
 
         }

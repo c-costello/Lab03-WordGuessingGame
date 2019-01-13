@@ -21,9 +21,22 @@ namespace GuessingGameTests
         [Fact]
         public void CanUpdateFile()
         {
+            Program.DeleteFile(Program.wordPath);
+            Program.CreateFile();
+
             string input = "WORD";
             string[] expected = { "DOG", "CAT", "SILLY", "FUNNY", "WORD" };
+
             Assert.Equal(expected, Program.AppendToFile(Program.wordPath, input));
+        }
+        [Fact]
+        public void CanReadAllLine()
+        {
+            Program.DeleteFile(Program.wordPath);
+            Program.CreateFile();
+
+            string[] expected = { "DOG", "CAT", "SILLY", "FUNNY"};
+            Assert.Equal(expected, Program.ReadFile(Program.wordPath));
         }
     }
 }
