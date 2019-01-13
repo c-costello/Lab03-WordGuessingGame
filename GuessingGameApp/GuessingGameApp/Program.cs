@@ -15,6 +15,9 @@ namespace GuessingGameApp
             Menu();
         }
 
+        /// <summary>
+        /// Prompts user to select option from menu, handle response, and then call the appropriate function via switch statement
+        /// </summary>
         public static void Menu()
         {
             Console.WriteLine("Play HangMan?");
@@ -47,6 +50,13 @@ namespace GuessingGameApp
 
         }
 
+        /// <summary>
+        /// Handler that takes in the user input and converts input to integer
+        /// has the try catch block for the menus
+        /// 
+        /// </summary>
+        /// <param name="pickStr">pickStr, the user response from the menu prompt</param>
+        /// <returns>the user input as an int</returns>
         public static int PickHandler(string pickStr)
         {
             int pick;
@@ -65,6 +75,11 @@ namespace GuessingGameApp
         }
 
         //admin functions
+        /// <summary>
+        /// Prompts user to select option from admin menu
+        /// calls PickHandler to convert user input from string to integer
+        /// uses a switch statement to call appropriate method
+        /// </summary>
         public static void AdminMenu()
         {
             Console.WriteLine("What would you like to do?");
@@ -83,7 +98,7 @@ namespace GuessingGameApp
                     AddAWord();  
                     break;
                 case 3:
-                    RemoveOneWOrd();
+                    RemoveOneWord();
                     break;
                 case 4:
                     Menu();
@@ -92,6 +107,11 @@ namespace GuessingGameApp
                     break;
             }
         }
+        /// <summary>
+        /// prompts user to give input on what word they want to add
+        /// converts the user input to uppercase
+        /// and adds the user input to the words file
+        /// </summary>
         public static void AddAWord()
         {
             ReadFile(wordPath);
@@ -102,13 +122,22 @@ namespace GuessingGameApp
             Console.WriteLine();
             AdminMenu();
         }
+        /// <summary>
+        /// Prints out a list of all the words in the words file
+        /// </summary>
         public static void ViewWords()
         {
             ReadFile(wordPath);
             Console.WriteLine();
             AdminMenu();
         }
-        public static void RemoveOneWOrd()
+
+        /// <summary>
+        /// prompts user to enter a word they would like to delete
+        /// checks word against words in file
+        /// deletes file and re-writes file without the selected word
+        /// </summary>
+        public static void RemoveOneWord()
         {
             string[] words = File.ReadAllLines(wordPath);
             foreach (string word in words)
@@ -148,6 +177,9 @@ namespace GuessingGameApp
         }
 
         //game functions
+        /// <summary>
+        /// generates a random word and triggers the start of the game
+        /// </summary>
         public static void StartGame()
         {
 
@@ -169,6 +201,15 @@ namespace GuessingGameApp
 
             
         }
+
+        /// <summary>
+        /// takes user's input guess and converts it from string to char
+        /// handles any execptions caused by conversion
+        /// appends user guess to the guesses file
+        /// calls wordChecker
+        /// </summary>
+        /// <param name="letterInput"></param>
+        /// <param name="word"></param>
         public static void GuessChecker(string letterInput, string word)
         {
             char letter;
@@ -197,6 +238,11 @@ namespace GuessingGameApp
                 isCorrect = true;
             }
         }
+
+        /// <summary>
+        /// Prompts user to submit a guess
+        /// </summary>
+        /// <returns>Returns user input as a string</returns>
         public static string LetterPrompt()
         {
             Console.Write("Guess a Letter: ");
@@ -204,6 +250,14 @@ namespace GuessingGameApp
             string choiceStr = choice.ToUpper();
             return choiceStr;
         }
+
+        /// <summary>
+        /// Creates word form (ex _ _ _)
+        /// checks guesses against random word that is being guessed
+        /// for every letter that has been guessed correctly, fill in the appropriate blank
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
         public static char[] WordChecker(string word)
         {
             int wordLength = word.Length;
@@ -233,6 +287,12 @@ namespace GuessingGameApp
             }
             return wordForm;
         }
+
+        /// <summary>
+        /// generate a random word from the words file
+        /// </summary>
+        /// <param name="path">file path wordPath</param>
+        /// <returns>the targed guess word</returns>
         public static string GetRandomWord(string path)
         {
             string[] words = File.ReadAllLines(path);
@@ -247,6 +307,9 @@ namespace GuessingGameApp
 
 
         //System.IO functions
+        /// <summary>
+        /// creates a file
+        /// </summary>
         public static void CreateFile()
         {
             using (StreamWriter streamWriter = new StreamWriter(wordPath))
@@ -258,6 +321,10 @@ namespace GuessingGameApp
             }
 
         }
+
+        /// <summary>
+        /// creates the guesses file
+        /// </summary>
         public static void CreateFileGuesses()
         {
             using (StreamWriter streamWriter = new StreamWriter(guessPath))
@@ -265,6 +332,12 @@ namespace GuessingGameApp
                 streamWriter.WriteLine("GUESSES");
             }
         }
+
+        /// <summary>
+        /// reads the file and prints the list of words
+        /// </summary>
+        /// <param name="path">wordPath</param>
+        /// <returns> returns an array of all the words in the file</returns>
         public static string[] ReadFile(string path)
         {
             using (StreamReader streamReader = new StreamReader(path))
@@ -279,6 +352,13 @@ namespace GuessingGameApp
             }
 
         }
+
+        /// <summary>
+        /// adds a word to the file
+        /// </summary>
+        /// <param name="path">wordPath</param>
+        /// <param name="input"> word to be added </param>
+        /// <returns> a new array made up of the new words file</returns>
         public static string[] AppendToFile(string path, string input)
         {
             string inputUpper = input.ToUpper();
