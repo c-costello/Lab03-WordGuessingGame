@@ -8,6 +8,7 @@ namespace GuessingGameApp
         public static string wordPath = "../../../../../words.txt";
         public static string guessPath = "../../../../../guesses.txt";
         public static bool isCorrect = false;
+        public static string guessThisWord;
         static void Main(string[] args)
         {
             CreateFile();
@@ -27,7 +28,8 @@ namespace GuessingGameApp
             switch (pick)
             {
                 case 1:
-                    
+                    CreateFile();
+                    CreateFileGuesses();
                     StartGame();
                     break;
                 case 2:
@@ -106,9 +108,8 @@ namespace GuessingGameApp
         //game functions
         public static void StartGame()
         {
-            CreateFile();
-            CreateFileGuesses();
-            string guessThisWord = GetRandomWord(wordPath);
+
+            guessThisWord = GetRandomWord(wordPath);
             while (isCorrect == false)
             {
                 //Console.WriteLine("Your Word: " + guessThisWord);
@@ -119,7 +120,6 @@ namespace GuessingGameApp
             }
             Console.WriteLine(String.Join(' ', WordChecker(guessThisWord)));
             Console.WriteLine("You Won!");
-            Console.Clear();
             isCorrect = false;
             DeleteFile(guessPath);
             DeleteFile(wordPath);
@@ -129,7 +129,24 @@ namespace GuessingGameApp
         }
         public static void GuessChecker(string letterInput, string word)
         {
-            char letter = Convert.ToChar(letterInput);
+            char letter;
+            bool canConvert = false;
+            while (canConvert == false)
+            {
+                try
+                {
+                    letter = Convert.ToChar(letterInput);
+
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Only Enter One Letter!");
+                    letterInput = LetterPrompt();
+
+                }
+                canConvert = true;
+            }
+            letter = Convert.ToChar(letterInput);
             AppendToFile(guessPath, letterInput);
             char[] checkedWord = WordChecker(word);
             string checkedWordStr = new string(checkedWord);
