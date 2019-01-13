@@ -70,7 +70,8 @@ namespace GuessingGameApp
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1. View Words");
             Console.WriteLine("2. Edit Words");
-            Console.WriteLine("3. Return to menu");
+            Console.WriteLine("3. Remove One Word");
+            Console.WriteLine("4. Return to menu");
             string pickStr = Console.ReadLine();
             int pick = PickHandler(pickStr);
             switch (pick)
@@ -79,9 +80,12 @@ namespace GuessingGameApp
                     ViewWords();
                     break;
                 case 2:
-                    AddAWord();                    
+                    AddAWord();  
                     break;
                 case 3:
+                    RemoveOneWOrd();
+                    break;
+                case 4:
                     Menu();
                     break;
                 default:
@@ -103,7 +107,44 @@ namespace GuessingGameApp
             Console.WriteLine();
             AdminMenu();
         }
+        public static void RemoveOneWOrd()
+        {
+            string[] words = File.ReadAllLines(wordPath);
+            foreach (string word in words)
+            {
+                Console.WriteLine(word);
+            }
+            Console.WriteLine("What word would you like to remove? Please enter exact word");
+            string deletedWordInput = Console.ReadLine();
+            string deletedWord = deletedWordInput.ToUpper();
+            string[] newWords = new string[words.Length];
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (deletedWord != words[i])
+                {
+                    newWords[i] = words[i];
+                }
+                if (newWords == words)
+                {
+                    Console.WriteLine("That's not one of the words!");
+                    AdminMenu();
+                }
+            }
+            DeleteFile(wordPath);
+            using (StreamWriter streamWriter = new StreamWriter(wordPath))
+            {
+                foreach (string word in newWords)
+                {
+                    streamWriter.WriteLine(word);
+                }
+            }
+            Console.WriteLine("Your words now are: ");
+            ViewWords();
+            AdminMenu();
+            
 
+            
+        }
 
         //game functions
         public static void StartGame()
