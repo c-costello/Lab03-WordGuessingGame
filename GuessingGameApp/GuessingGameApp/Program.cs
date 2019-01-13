@@ -142,7 +142,8 @@ namespace GuessingGameApp
         {
             Console.Write("Guess a Letter: ");
             string choice = Console.ReadLine();
-            return choice;
+            string choiceStr = choice.ToUpper();
+            return choiceStr;
         }
         public static char[] WordChecker(string word)
         {
@@ -221,9 +222,10 @@ namespace GuessingGameApp
         }
         public static string[] AppendToFile(string path, string input)
         {
+            string inputUpper = input.ToUpper();
             using (StreamWriter streamWriter = File.AppendText(path))
             {
-                streamWriter.WriteLine(input);
+                streamWriter.WriteLine(inputUpper);
             }
             return ReadFile(path);
 
