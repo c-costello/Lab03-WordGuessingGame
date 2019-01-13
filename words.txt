@@ -1,6 +1,4 @@
 DOG
-Cat
-Silly
-Funny
-unicorn
-allow
+CAT
+SILLY
+FUNNY

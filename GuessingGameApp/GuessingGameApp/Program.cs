@@ -27,6 +27,7 @@ namespace GuessingGameApp
             switch (pick)
             {
                 case 1:
+                    
                     StartGame();
                     break;
                 case 2:
@@ -85,7 +86,6 @@ namespace GuessingGameApp
                     break;
             }
         }
-
         public static void AddAWord()
         {
             ReadFile(wordPath);
@@ -101,9 +101,12 @@ namespace GuessingGameApp
             Console.WriteLine();
             AdminMenu();
         }
+
+
         //game functions
         public static void StartGame()
         {
+            CreateFile();
             CreateFileGuesses();
             string guessThisWord = GetRandomWord(wordPath);
             while (isCorrect == false)
@@ -116,12 +119,14 @@ namespace GuessingGameApp
             }
             Console.WriteLine(String.Join(' ', WordChecker(guessThisWord)));
             Console.WriteLine("You Won!");
+            Console.Clear();
+            isCorrect = false;
             DeleteFile(guessPath);
+            DeleteFile(wordPath);
             Menu();
 
             
         }
-
         public static void GuessChecker(string letterInput, string word)
         {
             char letter = Convert.ToChar(letterInput);
@@ -133,14 +138,12 @@ namespace GuessingGameApp
                 isCorrect = true;
             }
         }
-
         public static string LetterPrompt()
         {
             Console.Write("Guess a Letter: ");
             string choice = Console.ReadLine();
             return choice;
         }
-
         public static char[] WordChecker(string word)
         {
             int wordLength = word.Length;
@@ -170,9 +173,6 @@ namespace GuessingGameApp
             }
             return wordForm;
         }
-
-
-
         public static string GetRandomWord(string path)
         {
             string[] words = File.ReadAllLines(path);
@@ -183,15 +183,18 @@ namespace GuessingGameApp
             return word;
 
         } 
+        
+
+
         //System.IO functions
         public static void CreateFile()
         {
             using (StreamWriter streamWriter = new StreamWriter(wordPath))
             {
                 streamWriter.WriteLine("DOG");
-                streamWriter.WriteLine("Cat");
-                streamWriter.WriteLine("Silly");
-                streamWriter.WriteLine("Funny");
+                streamWriter.WriteLine("CAT");
+                streamWriter.WriteLine("SILLY");
+                streamWriter.WriteLine("FUNNY");
             }
 
         }
@@ -215,12 +218,24 @@ namespace GuessingGameApp
             }
 
         }
-        public static void AppendToFile(string path, string input)
+        public static string[] AppendToFile(string path, string input)
         {
             using (StreamWriter streamWriter = File.AppendText(path))
             {
                 streamWriter.WriteLine(input);
             }
+
+            using (StreamReader streamReader = new StreamReader(path))
+            {
+                string[] words = File.ReadAllLines(path);
+                foreach (string word in words)
+                {
+                    Console.WriteLine(word);
+                }
+                return words;
+
+            }
+
 
         }
         public static void DeleteFile(string path)

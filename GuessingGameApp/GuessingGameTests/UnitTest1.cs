@@ -17,6 +17,13 @@ namespace GuessingGameTests
         {
             Assert.Equal(0, Program.PickHandler("A string"));
         }
-        //
+  
+        [Fact]
+        public void CanUpdateFile()
+        {
+            string input = "WORD";
+            string[] expected = { "DOG", "CAT", "SILLY", "FUNNY", "WORD" };
+            Assert.Equal(expected, Program.AppendToFile(Program.wordPath, input));
+        }
     }
 }
