@@ -362,6 +362,7 @@ namespace GuessingGameApp
         public static string[] AppendToFile(string path, string input)
         {
             string inputUpper = input.ToUpper();
+
             using (StreamWriter streamWriter = File.AppendText(path))
             {
                 streamWriter.WriteLine(inputUpper);
