@@ -24,7 +24,7 @@ If the list of words isn't long enough, or you just don't like one of the words,
 ## Visuals
 
 ### Menu
-![menu demo](./asset/start_menu.PNG)
+![menu demo](./assets/start_menu.PNG)
 
 ### Admin Menu
 ![admin menu demo](./assets/admin_menu.PNG)
