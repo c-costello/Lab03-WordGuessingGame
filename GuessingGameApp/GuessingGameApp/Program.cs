@@ -96,7 +96,8 @@ namespace GuessingGameApp
         {
             ReadFile(wordPath);
             Console.WriteLine("What word would you like to add?");
-            string addedWord = Console.ReadLine();
+            string addedWordInput = Console.ReadLine();
+            string addedWord = addedWordInput.ToUpper();
             AppendToFile(wordPath, addedWord);
             Console.WriteLine();
             AdminMenu();
