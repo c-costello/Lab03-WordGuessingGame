@@ -38,5 +38,17 @@ namespace GuessingGameTests
             string[] expected = { "DOG", "CAT", "SILLY", "FUNNY"};
             Assert.Equal(expected, Program.ReadFile(Program.wordPath));
         }
+        [Fact] 
+        public void CanTellIfACharacterExistsInAWord()
+        {
+            Program.DeleteFile(Program.guessPath);
+            Program.CreateFileGuesses();
+            Program.AppendToFile(Program.guessPath, "C");
+            char[] expected = { 'C', '_', '_'};
+
+            
+
+            Assert.Equal(expected, Program.WordChecker("CAT"));
+        }
     }
 }
