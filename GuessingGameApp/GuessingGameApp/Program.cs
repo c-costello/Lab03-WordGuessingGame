@@ -31,7 +31,6 @@ namespace GuessingGameApp
             switch (pick)
             {
                 case 1:
-                    CreateFile();
                     CreateFileGuesses();
                     StartGame();
                     break;
@@ -196,7 +195,6 @@ namespace GuessingGameApp
             Console.WriteLine("You Won!");
             isCorrect = false;
             DeleteFile(guessPath);
-            DeleteFile(wordPath);
             Menu();
 
             
