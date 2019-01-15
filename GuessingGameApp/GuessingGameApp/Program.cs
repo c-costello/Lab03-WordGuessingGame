@@ -296,10 +296,13 @@ namespace GuessingGameApp
             string[] words = File.ReadAllLines(path);
             int wordsLength = words.Length;
             Random r = new Random();
-            int whichWord = r.Next(wordsLength);
-            string word = words[whichWord];
+            string word = "";
+            while (word == "")
+            {
+                int whichWord = r.Next(wordsLength);
+                word = words[whichWord];
+            }
             return word;
-
         } 
         
 
